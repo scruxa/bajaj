@@ -2,8 +2,8 @@ import Cors from "cors";
 
 // Initialize CORS middleware
 const cors = Cors({
-  methods: ["GET", "POST", "OPTIONS"],
-  origin: true, // Allow all origins
+  methods: ["GET", "POST", "OPTIONS"], // Include OPTIONS method
+  origin: "*", // Allow all origins
   allowedHeaders: ["Content-Type", "Authorization"],
 });
 
@@ -25,6 +25,12 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") {
     // Respond to preflight requests
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    res.setHeader(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
     return res.status(200).end();
   }
 
