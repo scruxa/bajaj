@@ -3,7 +3,7 @@ import Cors from "cors";
 // Initialize CORS middleware
 const cors = Cors({
   methods: ["GET", "POST"],
-  origin: "https://bfhl-frontend-5wtvhmdsa-scruxas-projects.vercel.app/", // Replace with your frontend URL
+  origin: true, // Allow all origins
   allowedHeaders: ["Content-Type", "Authorization"],
 });
 
