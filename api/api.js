@@ -1,21 +1,15 @@
-import express from "express";
-import cors from "cors";
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
-// Use CORS middleware with options
-app.use(
-  cors({
-    origin: "*", // Allow all origins for testing; replace with specific origins for production
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+// Use CORS middleware with default options (allow all origins)
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Define your API route
+// Define your API routes
 app.post("/api/api", (req, res) => {
   const { data } = req.body;
 
@@ -48,4 +42,15 @@ app.post("/api/api", (req, res) => {
   });
 });
 
-export default app;
+app.get("/api/api", (req, res) => {
+  return res.status(200).json({ operation_code: 1 });
+});
+
+// Export the app for modular use
+module.exports = app;
+
+// Start the server
+// const PORT = process.env.PORT || 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
