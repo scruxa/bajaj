@@ -2,7 +2,7 @@ import Cors from "cors";
 
 // Initialize CORS middleware
 const cors = Cors({
-  methods: ["GET", "POST"],
+  methods: ["GET", "POST", "OPTIONS"],
   origin: true, // Allow all origins
   allowedHeaders: ["Content-Type", "Authorization"],
 });
@@ -23,6 +23,11 @@ export default async function handler(req, res) {
   // Run CORS middleware
   await runMiddleware(req, res, cors);
 
+  if (req.method === "OPTIONS") {
+    // Respond to preflight requests
+    return res.status(200).end();
+  }
+
   if (req.method === "POST") {
     const { data } = req.body;
 
@@ -42,7 +47,7 @@ export default async function handler(req, res) {
         .sort()
         .pop() || "";
 
-    res.status(200).json({
+    return res.status(200).json({
       is_success: true,
       user_id: "john_doe_17091999",
       email: "john@xyz.com",
@@ -54,8 +59,8 @@ export default async function handler(req, res) {
         : [],
     });
   } else if (req.method === "GET") {
-    res.status(200).json({ operation_code: 1 });
+    return res.status(200).json({ operation_code: 1 });
   } else {
-    res.status(405).json({ msg: "Method Not Allowed" });
+    return res.status(405).json({ msg: "Method Not Allowed" });
   }
 }
